@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/swipeFragment">
+
+    <fragment
+        android:id="@+id/swipeFragment"
+        android:name="com.example.swapit.ui.home.SwipeFragment"
+        android:label="Home">
+
+        <action
+            android:id="@+id/action_swipeFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
+
+        <action
+            android:id="@+id/action_swipeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+
+        <action
+            android:id="@+id/action_swipeFragment_to_itemDetailsFragment"
+            app:destination="@id/itemDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.example.swapit.ui.additem.AddItemFragment"
+        android:label="Add Item">
+
+        <argument
+            android:name="itemId"
+            android:defaultValue="@null"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_addItemFragment_to_mapPickerFragment"
+            app:destination="@id/mapPickerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/itemDetailsFragment"
+        android:name="com.example.swapit.ui.item.ItemDetailsFragment"
+        android:label="Item Details">
+
+        <argument
+            android:name="itemId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapPickerFragment"
+        android:name="com.example.swapit.ui.map.MapPickerFragment"
+        android:label="Pick Location" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.swapit.ui.profile.ProfileFragment"
+        android:label="Profile" />
+
+    <fragment
+        android:id="@+id/myItemsFragment"
+        android:name="com.example.swapit.ui.myitems.MyItemsFragment"
+        android:label="My Items" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.swapit.ui.chat.ChatFragment"
+        android:label="Chat">
+        <argument
+            android:name="conversationId"
+            app:argType="string" />
+        <argument android:name="itemId" app:argType="string" android:defaultValue="" />
+        <argument android:name="itemTitle" app:argType="string" android:defaultValue="" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/conversationsFragment"
+        android:name="com.example.swapit.ui.chat.ConversationsFragment"
+        android:label="Chats" />
+
+
+
+
+</navigation>

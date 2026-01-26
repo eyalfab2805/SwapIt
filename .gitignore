@@ -1,0 +1,28 @@
+# Android / Gradle
+*.iml
+.gradle
+/build
+.externalNativeBuild
+.cxx
+/captures
+
+# Local config
+local.properties
+
+# Firebase
+google-services.json
+
+# IntelliJ / Android Studio
+.idea/
+!.idea/codeStyles
+!.idea/inspectionProfiles
+
+# OS
+.DS_Store
+
+# Keystores (release signing)
+*.jks
+*.keystore
+
+# Logs
+*.log
