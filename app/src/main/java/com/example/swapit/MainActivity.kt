@@ -18,39 +18,52 @@ class MainActivity : AppCompatActivity() {
     private val auth by lazy { FirebaseAuth.getInstance() }
 
     private var unreadListener: ValueEventListener? = null
+    private var hasUi = false
 
     private val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
         val user = firebaseAuth.currentUser
-        if (user != null && !user.isAnonymous && !user.email.isNullOrBlank()) {
-            ItemRepository.start()
-            startUnreadListener()
-        } else {
+        val loggedIn = user != null && !user.isAnonymous
+
+        if (!loggedIn) {
             stopUnreadListener()
+            ItemRepository.stop()
+            goToAuth()
+            return@AuthStateListener
         }
+
+        ItemRepository.start()
+        if (hasUi) startUnreadListener()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val user = auth.currentUser
-        if (user == null || user.isAnonymous || user.email.isNullOrBlank()) {
-            startActivity(Intent(this, AuthActivity::class.java))
-            finish()
+        val loggedIn = user != null && !user.isAnonymous
+        if (!loggedIn) {
+            goToAuth()
             return
         }
 
-        ItemRepository.start()
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        hasUi = true
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-
         binding.bottomNav.setupWithNavController(navController)
 
+        ItemRepository.start()
         startUnreadListener()
+    }
+
+    private fun goToAuth() {
+        val i = Intent(this, AuthActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(i)
+        finish()
     }
 
     private fun startUnreadListener() {
@@ -75,7 +88,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        stopUnreadListener()
         auth.removeAuthStateListener(authListener)
     }
 }
